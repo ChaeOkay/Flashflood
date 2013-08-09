@@ -8,7 +8,7 @@ post "/sign_in" do
   p user
   if user.password == params[:password]
     # session[:user_id] = user.id
-    
+
     erb :dashboard
 
   else
@@ -46,8 +46,9 @@ end
 get '/:user_id/deck/:deck_id/:card_id' do
   # localhost:9393/1/deck/1/1
   # params = { :user_id => value}
-
   user = User.find_by_id(params[:user_id])
+  @deck = Deck.find_by_id(params[:deck_id])
+  cardid = deck.cards.find_by_id(params[:card_id])
 
   erb :game
 end
