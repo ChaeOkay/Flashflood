@@ -1,4 +1,6 @@
-martino = User.create(username: 'Martino', password_hash: 'crazy')
+martino = User.create(username: 'Martino')
+martino.password= 'crazy'
+martino.save
 state_capitals = Deck.create(name: 'State Capitals')
 
 ca = Card.create(question: 'What is the capital of California?', answer: 'Sacramento')
