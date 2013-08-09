@@ -14,7 +14,7 @@ post "/sign_in" do
     if user.password == params[:password]
       # session[:user_id] = user.id
 
-      erb :dashboard
+      redirect "/#{user.id}/dashboard"
 
     else
       @reason = "wrong password"
@@ -48,7 +48,7 @@ post '/sign_up' do
 end
 
 get '/:user_id/dashboard' do
-
+  @all_decks = Deck.all
   erb :dashboard
 end
 

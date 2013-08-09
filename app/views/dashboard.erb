@@ -1,1 +1,14 @@
-<h1> Hello Dashboard </h1>
+<div>
+  <h1> Hello Dashboard </h1>
+
+  <form action="/sign_in" method="post">
+    <ul>
+      <% @all_decks.each do |deck| %>
+      <li><input type="radio" name="decks"> <%= deck.name %></input></li> 
+      <%end%>
+    </ul>
+    <br>
+    <input type="submit" value="Start Flooding!"> 
+  </form>
+
+</div>
