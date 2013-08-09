@@ -48,7 +48,8 @@ get '/:user_id/deck/:deck_id/:card_id' do
   # localhost:9393/1/deck/1/1
   # params = { :user_id => value}
 
-  User.find_by_id(params[id])
+  user = User.find_by_id(params[:user_id])
+
   erb :game
 end
 
