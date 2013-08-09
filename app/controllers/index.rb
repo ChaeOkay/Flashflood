@@ -5,17 +5,22 @@ end
 
 post "/sign_in" do
   user = User.find_by_username(params[:username])
-  p user
-  if user.password == params[:password]
-    # session[:user_id] = user.id
+  puts user.nil?
+  unless user.nil?
+    if user.password == params[:password]
+      # session[:user_id] = user.id
 
-    erb :dashboard
+      erb :dashboard
 
+    else
+      @reason = "wrong password"
+      redirect '/'
+    end
   else
-    "Whoops, wrong password, mate."
-    # redirect '/'
+    redirect '/'
   end
 end
+
 
 get '/sign_up' do
 
