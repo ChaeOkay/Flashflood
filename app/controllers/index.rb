@@ -13,14 +13,14 @@ post "/sign_in" do
       erb :dashboard
 
     else
+      @reason = "wrong password"
       redirect '/'
     end
   else
     redirect '/'
-  end
-
-  
+  end  
 end
+
 
 get '/sign_up' do
 
