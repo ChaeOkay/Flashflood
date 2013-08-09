@@ -1,9 +1,9 @@
 <div class="container">
   <h1>You are currently playing <%= @deck.name %></h1>
 
-  <p> previous question place holder.  previous answer placeholder</p>
+  <!-- <p> previous question place holder.  previous answer placeholder</p> -->
 
-  <p> <%= card.question %> </p>
+  <p> <%= @card.question %> </p>
   <form method='post' action='/game'>
     Answer: <input name="guess" value="<%= @guess %>"><br>
     <br>

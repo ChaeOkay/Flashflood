@@ -49,11 +49,11 @@ get '/:user_id/dashboard' do
 end
 
 get '/:user_id/deck/:deck_id/:card_id' do
-  # localhost:9393/1/deck/1/1
+  # localhost:9393/1/deck/1/3
   # params = { :user_id => value}
   user = User.find_by_id(params[:user_id])
   @deck = Deck.find_by_id(params[:deck_id])
-  cardid = deck.cards.find_by_id(params[:card_id])
+  @card = @deck.cards.find_by_id(params[:card_id])
 
   erb :game
 end
