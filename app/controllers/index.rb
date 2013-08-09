@@ -27,7 +27,7 @@ end
 
 post '/sign_up' do
   unless User.find_by_username(params[:username])
-    user = User.new(username: params[:username]) 
+    user = User.new(username: params[:username])
     user.password = params[:password]
     user.save
     p user
@@ -44,12 +44,15 @@ get '/:user_id/dashboard' do
   erb :dashboard
 end
 
-get '/:user_id/deck/:id/:card_id' do
+get '/:user_id/deck/:deck_id/:card_id' do
+  # localhost:9393/1/deck/1/1
+  # params = { :user_id => value}
 
+  User.find_by_id(params[id])
   erb :game
 end
 
-post '/:user_id/deck/:id/:card_id' do
+post '/:user_id/deck/:deck_id/:card_id' do
 
   erb :game
 end
