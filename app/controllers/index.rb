@@ -55,7 +55,7 @@ end
 get '/:user_id/deck/:deck_id/:card_id' do
   # localhost:9393/1/deck/1/3
   # params = { :user_id => value}
-  user = User.find_by_id(params[:user_id])
+  @user = User.find_by_id(params[:user_id])
   @deck = Deck.find_by_id(params[:deck_id])
   @card = @deck.cards.find_by_id(params[:card_id])
 
@@ -63,8 +63,13 @@ get '/:user_id/deck/:deck_id/:card_id' do
 end
 
 post '/:user_id/deck/:deck_id/:card_id' do
+  guess = params[:guess]
+  card = Card.find_by_id(params[:card_id])
+  answer = card.answer
+  # if guess == answer
 
-  erb :game
+  new_id = params[:card_id].to_i + 1
+  redirect "/#{params[:user_id]}/deck/#{params[:deck_id]}/#{new_id}"
 end
 
 get '/logout' do
