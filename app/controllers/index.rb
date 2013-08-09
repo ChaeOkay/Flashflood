@@ -1,5 +1,5 @@
 get '/' do
-  # Look in app/views/index.erb 
+  # Look in app/views/index.erb
   erb :sign_in
 end
 
