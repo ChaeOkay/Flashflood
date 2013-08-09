@@ -49,7 +49,16 @@ end
 
 get '/:user_id/dashboard' do
   @all_decks = Deck.all
+  @user_id = params[:user_id]
   erb :dashboard
+end
+
+post '/:user_id/dashboard' do
+
+  "#{params[:decks]}"
+  first_card = Deck.find_by_id(params[:decks]).cards.first
+  p first_card
+  redirect "/#{params[:user_id]}/deck/#{params[:decks]}/#{first_card.id}"
 end
 
 get '/:user_id/deck/:deck_id/:card_id' do
