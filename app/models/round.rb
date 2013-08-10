@@ -2,19 +2,16 @@ class Round < ActiveRecord::Base
   belongs_to :user
   belongs_to :deck
 
-  #attr_reader :current_card, :cards_remaining
-
- #@card_counter #=> number associated with index of card object in deck.cards array
-
   def next_card
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts card_counter  #= card_counter + 1
-    puts card_counter + 1
-    Deck.find_by_id(deck_id).cards[card_counter] #=> returns a card object
+    self.card_counter += 1
+    self.save
+
+    current_card #=> returns a card object
+  end
+
+  def reset_card
+    self.card_counter = 0
+    self.save
   end
 
   def current_card
@@ -22,7 +19,11 @@ class Round < ActiveRecord::Base
   end
 
   def last_card?
-    card_counter == (Deck.find_by_id(deck_id).cards.length-1)
+    card_counter == (deck_length-1)
+  end
+
+  def deck_length
+    Deck.find_by_id(deck_id).cards.length
   end
 
 end
