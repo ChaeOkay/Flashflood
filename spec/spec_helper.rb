@@ -24,5 +24,5 @@ require File.expand_path("../../config/environment", __FILE__)
 Capybara.app = Sinatra::Application
 
 RSpec.configure do |config|
-  config.include Capybara
+  config.include Capybara::DSL
 end
