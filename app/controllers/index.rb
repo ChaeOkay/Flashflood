@@ -4,6 +4,9 @@ end
 
 get "/sign_in" do
   @show_msg = params[:msg] != nil
+  puts "-"* 50 
+  puts @show_msg
+  puts "-"* 50
   @msg = params[:msg]
   erb :sign_in
 end
@@ -12,6 +15,7 @@ post "/sign_in" do
   user = User.find_by_username(params[:username])
   if not user.nil? and user.password == params[:password]
       # session[:user_id] = user.id
+      session[:user_id] = user.id
       redirect "/#{user.id}/dashboard"
   end
   redirect '/sign_in?msg=Unknown user or password.'
@@ -19,7 +23,6 @@ end
 
 
 get '/sign_up' do
-
   erb :sign_up
 end
 
@@ -38,6 +41,11 @@ post '/sign_up' do
   end
 end
 
+get '/sign_out' do
+  session[:user_id] = nil
+  redirect '/'
+end
+
 get '/:user_id/dashboard' do
   @all_decks = Deck.all
   @user_id = params[:user_id]
@@ -53,10 +61,10 @@ post '/:user_id/dashboard' do
   round.num_incorrect = 0
   round.save
 
-  redirect "/#{round.id}"
+  redirect "round/#{round.id}"
 end
 
-get '/:round_id' do
+get 'round/:round_id' do
   @round = Round.find_by_id(params[:round_id])
   @deck = Deck.find_by_id(@round.deck_id)
   @current_card = @round.current_card
@@ -67,7 +75,7 @@ get '/:round_id' do
   erb :game
 end
 
-post '/:round_id' do
+post 'round/:round_id' do
   round = Round.find_by_id(params[:round_id])
   if params[:guess] == round.current_card[:answer]
     puts "correct"
@@ -91,7 +99,4 @@ post '/:round_id' do
 end
 
 
-get '/logout' do
 
-  erb :logout
-end
