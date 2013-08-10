@@ -1,14 +1,17 @@
 <div>
-  <h1> Hello Dashboard </h1>
+  <div class="jumbotron">
+    <h1>FlashFlood</h1>
+    <p>Answer a bunch of questions and keep track of how well you're doing.</p>
+  </div>
 
   <form action="/<%=@user_id%>/dashboard" method="post">
     <ul>
       <% @all_decks.each do |deck| %>
-      <li><input type="radio" name="decks" value="<%= deck.id %>"> <%= deck.name %></input></li> 
+      <li><input type="radio" name="decks" value="<%= deck.id %>"> <%= deck.name %></input></li>
       <%end%>
     </ul>
     <br>
-    <input type="submit" value="Start Flooding!"> 
+    <input class="btn" type="submit" value="Start Flooding!">
   </form>
 
 </div>
