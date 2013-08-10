@@ -76,15 +76,17 @@ end
 
 post '/:round_id' do
   round = Round.find_by_id(params[:round_id])
-  if params[:guess] == round.current_card[:answer] 
+  if params[:guess] == round.current_card[:answer]
+    puts round.num_correct 
     round.num_correct += 1
   else 
-    round.num_wrong += 1
+    round.num_incorrect += 1
   end 
 
   unless round.last_card?
-    "it worked"
-    #redirect '/:round_id'
+    puts "it worked"
+    round.card_counter += 1 
+    redirect "/#{params[:round_id]}"
   else
     "congratulations, you finished"
     erb :summary_page

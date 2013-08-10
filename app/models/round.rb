@@ -7,7 +7,13 @@ class Round < ActiveRecord::Base
  #@card_counter #=> number associated with index of card object in deck.cards array
 
   def next_card
-    card_counter += 1
+    puts
+    puts
+    puts
+    puts
+    puts
+    puts card_counter  #= card_counter + 1
+    puts card_counter + 1
     Deck.find_by_id(deck_id).cards[card_counter] #=> returns a card object
   end
 
