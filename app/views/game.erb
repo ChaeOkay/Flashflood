@@ -5,12 +5,16 @@
 
   <p> <%= @card.question %> </p>
   <form method='post' action='/<%= @user.id %>/deck/<%= @deck.id %>/<%= @card.id %>'>
-    Answer: <input name="guess" value="<%= @guess %>"><br>
+    Answer: <input name="guess"><br>
     <br>
     <input class= "btn" type="submit" value="Submit Answer">
     <br>
   </form>
 
+<div class="progress progress-striped active">
+  <div class="progress-bar" style="width: 45%"></div>
+</div>
 
-
+  <div>
+  </div>
 </div>

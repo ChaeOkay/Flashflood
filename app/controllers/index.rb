@@ -59,6 +59,11 @@ get '/:user_id/deck/:deck_id/:card_id' do
   @deck = Deck.find_by_id(params[:deck_id])
   @card = @deck.cards.find_by_id(params[:card_id])
 
+  # if @card.question.nil?
+  #   redirect "/#{params[:user_id]}/dashboard"
+  # else
+  #   erb :game
+  # end
   erb :game
 end
 
@@ -66,9 +71,14 @@ post '/:user_id/deck/:deck_id/:card_id' do
   guess = params[:guess]
   card = Card.find_by_id(params[:card_id])
   answer = card.answer
-  # if guess == answer
-
+  round = Round.where(user_id: params[:user_id], deck_id: params[:deck_id]).first
+  if guess == answer
+    round.num_correct += 1
+  else
+    round.num_incorrect += 1
+  end
   new_id = params[:card_id].to_i + 1
+
   redirect "/#{params[:user_id]}/deck/#{params[:deck_id]}/#{new_id}"
 end
 
