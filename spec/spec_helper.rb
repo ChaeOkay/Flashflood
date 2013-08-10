@@ -5,6 +5,6 @@ require 'rubygems'
 # If RACK_ENV isn't set, set it to 'test'.  Sinatra defaults to development,
 # so we have to override that unless we want to set RACK_ENV=test from the
 # command line when we run rake spec.  That's tedious, so do it here.
-ENV['RACK_ENV'] ||= 'test'
+ENV['RACK_ENV'] ||= 'development'
 
 require File.expand_path("../../config/environment", __FILE__)
