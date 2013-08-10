@@ -86,6 +86,7 @@ namespace :generate do
 end
 
 namespace :db do
+  #for DB_NAME, see config/database note on how DB_NAME is generated
   desc "Create the database at #{DB_NAME}"
   task :create do
     puts "Creating database #{DB_NAME} if it doesn't exist..."
