@@ -1,10 +1,30 @@
 <div class="container">
-<h2> Sign In </h2>
-
-<form action="/sign_in" method="post">
-  <input type="text" name="username" placeholder="e.g. anirudh"> 
-  <input type="password" name="password" placeholder="password">
-  <input type="submit" value="sign in"> 
-</form>
-
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>FlashFlood</h2>
+      <p>Experience FlashFlood.  Have fun answering pointless questions all day
+        long.  Signed in users will be able to easily know how many pointless
+        questions have been answered.  Also, you need to sign in to play.</p>
+      <img class="fit" src="/img/flood.jpg">
+    </div>
+    <div class="col-lg-6 sign-dialog">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Sign in</div>
+        <% if (@show_msg) then %>
+          <div class="alert alert-danger">
+            Dude... learn how to type your credentials.
+          </div>
+        <% end %>
+        <form action="/sign_in" method="post">
+          <label for="username">Username</label>
+          <input type="text" name="username" class="form-control"><br>
+          <label for="username">Password</label>
+          <input type="password" name="password" class="form-control"><br>
+          <input class="btn" type="submit" value="Sign in">
+        </form>
+        <br>
+        <a href="/sign_up">Don't have an account?</a>
+      </div>
+    </div>
+  </div>
 </div>

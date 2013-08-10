@@ -1,28 +1,20 @@
 get '/' do
-  # Look in app/views/index.erb
-  redirect "/sign_in"
+  erb :index
 end
 
 get "/sign_in" do
+  @show_msg = params[:msg] != nil
+  @msg = params[:msg]
   erb :sign_in
 end
 
 post "/sign_in" do
   user = User.find_by_username(params[:username])
-  puts user.nil?
-  unless user.nil?
-    if user.password == params[:password]
+  if not user.nil? and user.password == params[:password]
       # session[:user_id] = user.id
-
       redirect "/#{user.id}/dashboard"
-
-    else
-      @reason = "wrong password"
-      redirect '/'
-    end
-  else
-    redirect '/'
   end
+  redirect '/sign_in?msg=Unknown user or password.'
 end
 
 
@@ -39,12 +31,11 @@ post '/sign_up' do
     user.password = params[:password]
     user.save
     p user
-   "im in"
-  end
+   erb :dashboard
+  else
 
   "already a user"
-    # redirect '/:user_id/dashboard'
-    # erb :dashboard
+  end  
 end
 
 get '/:user_id/dashboard' do
@@ -55,41 +46,50 @@ end
 
 post '/:user_id/dashboard' do
 
-  "#{params[:decks]}"
-  first_card = Deck.find_by_id(params[:decks]).cards.first
-  p first_card
-  redirect "/#{params[:user_id]}/deck/#{params[:decks]}/#{first_card.id}"
+  round = Round.find_by_user_id_and_deck_id(params[:user_id], params[:deck_id])
+  round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil? 
+
+  round.num_correct = 0
+  round.num_incorrect = 0
+  round.save
+
+  redirect "/#{round.id}"
 end
 
-get '/:user_id/deck/:deck_id/:card_id' do
-  # localhost:9393/1/deck/1/3
-  # params = { :user_id => value}
-  @user = User.find_by_id(params[:user_id])
-  @deck = Deck.find_by_id(params[:deck_id])
-  @card = @deck.cards.find_by_id(params[:card_id])
+get '/:round_id' do
+  @round = Round.find_by_id(params[:round_id])
+  @deck = Deck.find_by_id(@round.deck_id)
+  @current_card = @round.current_card
 
-  # if @card.question.nil?
-  #   redirect "/#{params[:user_id]}/dashboard"
-  # else
-  #   erb :game
-  # end
+  @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
+  @deck_progress.to_i
+
   erb :game
 end
 
-post '/:user_id/deck/:deck_id/:card_id' do
-  guess = params[:guess]
-  card = Card.find_by_id(params[:card_id])
-  answer = card.answer
-  round = Round.where(user_id: params[:user_id], deck_id: params[:deck_id]).first
-  if guess == answer
+post '/:round_id' do
+  round = Round.find_by_id(params[:round_id])
+  if params[:guess] == round.current_card[:answer]
+    puts "correct" 
     round.num_correct += 1
-  else
+    round.save
+  else 
+    puts "wrong"
     round.num_incorrect += 1
-  end
-  new_id = params[:card_id].to_i + 1
+    round.save
+  end 
 
-  redirect "/#{params[:user_id]}/deck/#{params[:deck_id]}/#{new_id}"
+  unless round.last_card?
+    round.next_card
+    redirect "/#{params[:round_id]}"
+  else
+    @round = round
+    @deck = Deck.find_by_id(@round.deck_id)
+    round.reset_card
+    erb :summary_page
+  end
 end
+
 
 get '/logout' do
 
