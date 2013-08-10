@@ -4,26 +4,18 @@ get '/' do
 end
 
 get "/sign_in" do
+  @show_msg = params[:msg] != nil
+  @msg = params[:msg]
   erb :sign_in
 end
 
 post "/sign_in" do
   user = User.find_by_username(params[:username])
-  p user
-  puts user.nil?
-  unless user.nil?
-    if user.password == params[:password]
+  if not user.nil? and user.password == params[:password]
       # session[:user_id] = user.id
-
       redirect "/#{user.id}/dashboard"
-
-    else
-      @reason = "wrong password"
-      redirect '/'
-    end
-  else
-    redirect '/'
   end
+  redirect '/sign_in?msg=Unknown user or password.'
 end
 
 
@@ -44,8 +36,8 @@ post '/sign_up' do
   else
 
   "already a user"
-  end  
-  
+  end
+
     # erb :dashboard
 end
 
@@ -58,7 +50,7 @@ end
 post '/:user_id/dashboard' do
 
   round = Round.find_by_user_id_and_deck_id(params[:user_id], params[:deck_id])
-  round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil? 
+  round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil?
   # "#{params[:decks]}"
   # first_card = Deck.find_by_id(params[:decks]).cards.first
   # p first_card
@@ -70,22 +62,22 @@ get '/:round_id' do
   @deck = Deck.find_by_id(@round.deck_id)
 
   @current_card = @round.current_card
-  
+
   erb :game
 end
 
 post '/:round_id' do
   round = Round.find_by_id(params[:round_id])
   if params[:guess] == round.current_card[:answer]
-    puts round.num_correct 
+    puts round.num_correct
     round.num_correct += 1
-  else 
+  else
     round.num_incorrect += 1
-  end 
+  end
 
   unless round.last_card?
     puts "it worked"
-    round.card_counter += 1 
+    round.card_counter += 1
     redirect "/#{params[:round_id]}"
   else
     "congratulations, you finished"

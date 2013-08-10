@@ -10,6 +10,11 @@
     <div class="col-lg-6 sign-dialog">
       <div class="panel panel-primary">
         <div class="panel-heading">Sign in</div>
+        <% if (@show_msg) then %>
+          <div class="alert alert-danger">
+            Dude... learn how to type your credentials.
+          </div>
+        <% end %>
         <form action="/sign_in" method="post">
           <label for="username">Username</label>
           <input type="text" name="username" class="form-control"><br>
