@@ -10,7 +10,9 @@ require 'capybara'
 
 #this line overrides enviornment default (development) with test
 # when tests run, we will always be in test
-ENV['RACK_ENV'] ||= 'test'
+
+# HOWEVER - test do not work with integration tests on controller
+ENV['RACK_ENV'] ||= 'development'
 
 # To create test database:
 # in terminal, prefix rake db commands with RACK_ENV=test
@@ -26,3 +28,4 @@ Capybara.app = Sinatra::Application
 RSpec.configure do |config|
   config.include Capybara::DSL
 end
+
