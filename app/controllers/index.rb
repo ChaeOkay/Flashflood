@@ -35,7 +35,7 @@ post '/sign_up' do
   else
 
   "already a user"
-  end  
+  end
 end
 
 get '/:user_id/dashboard' do
@@ -47,7 +47,7 @@ end
 post '/:user_id/dashboard' do
 
   round = Round.find_by_user_id_and_deck_id(params[:user_id], params[:deck_id])
-  round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil? 
+  round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil?
 
   round.num_correct = 0
   round.num_incorrect = 0
@@ -70,14 +70,14 @@ end
 post '/:round_id' do
   round = Round.find_by_id(params[:round_id])
   if params[:guess] == round.current_card[:answer]
-    puts "correct" 
+    puts "correct"
     round.num_correct += 1
     round.save
-  else 
+  else
     puts "wrong"
     round.num_incorrect += 1
     round.save
-  end 
+  end
 
   unless round.last_card?
     round.next_card
