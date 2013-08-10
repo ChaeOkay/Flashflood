@@ -1,6 +1,5 @@
 get '/' do
-  # Look in app/views/index.erb
-  redirect "/sign_in"
+  erb :index
 end
 
 get "/sign_in" do
