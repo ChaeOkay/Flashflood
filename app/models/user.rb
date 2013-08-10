@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
   include BCrypt
-
   has_many :rounds
   has_many :decks, through: :rounds
 
+  validates :username, :password_hash, presence: true
+  validates :username, uniqueness: true
+ 
   def password
     @password ||= Password.new(password_hash)
   end
