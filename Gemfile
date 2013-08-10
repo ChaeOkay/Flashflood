@@ -19,7 +19,8 @@ gem 'rake'
 
 gem 'shotgun'
 
-group :test do
+group :test, :development do
   gem 'faker'
   gem 'rspec'
+  gem 'capybara'
 end

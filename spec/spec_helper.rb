@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'capybara'
 
 # All our specs should require 'spec_helper' (this file)
 
@@ -8,3 +9,9 @@ require 'rubygems'
 ENV['RACK_ENV'] ||= 'development'
 
 require File.expand_path("../../config/environment", __FILE__)
+
+Capybara.app = Sinatra::Application
+
+RSpec.configure do |config|
+  config.include Capybara
+end
