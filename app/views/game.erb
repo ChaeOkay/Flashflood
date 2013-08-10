@@ -3,9 +3,9 @@
 
   <!-- <p> previous question place holder.  previous answer placeholder</p> -->
 
-  <p> <%= @card.question %> </p>
-  <form method='post' action='/<%= @user.id %>/deck/<%= @deck.id %>/<%= @card.id %>'>
-    Answer: <input name="guess"><br>
+  <p> <%= @current_card.question %> </p>
+  <form method='post' action='/<%= @round.id %>'>
+    Answer: <input name="guess" type="text"><br>
     <br>
     <input class= "btn" type="submit" value="Submit Answer">
     <br>

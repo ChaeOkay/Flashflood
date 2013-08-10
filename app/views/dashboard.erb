@@ -7,7 +7,9 @@
   <form action="/<%=@user_id%>/dashboard" method="post">
     <ul>
       <% @all_decks.each do |deck| %>
-      <li><input type="radio" name="decks" value="<%= deck.id %>"> <%= deck.name %></input></li>
+
+      <li><input type="radio" name="deck_id" value="<%= deck.id %>"> <%= deck.name %></input></li> 
+
       <%end%>
     </ul>
     <br>
