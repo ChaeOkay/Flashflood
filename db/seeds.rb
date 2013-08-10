@@ -28,7 +28,7 @@ state_capitals.cards << pa
 state_capitals.cards << mt
 # decks << state_capitals
 
-round = Round.where(user_id: martino[:id], deck_id: state_capitals[:id])
+# round = Round.where(user_id: martino[:id], deck_id: state_capitals[:id])
 # round.num_correct = 1
 # round.num_incorrect = 3
 
