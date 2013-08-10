@@ -68,9 +68,11 @@ end
 get '/:round_id' do
   @round = Round.find_by_id(params[:round_id])
   @deck = Deck.find_by_id(@round.deck_id)
-
   @current_card = @round.current_card
-  
+
+  @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
+  @deck_progress.to_i
+
   erb :game
 end
 

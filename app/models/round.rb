@@ -19,7 +19,11 @@ class Round < ActiveRecord::Base
   end
 
   def last_card?
-    card_counter == (Deck.find_by_id(deck_id).cards.length-1)
+    card_counter == (deck_length-1)
+  end
+
+  def deck_length
+    Deck.find_by_id(deck_id).cards.length
   end
 
 end
