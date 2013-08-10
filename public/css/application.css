@@ -3,11 +3,24 @@
   max-height: 100%;
 }
 
-.sign-dialog {
-  margin-top: 70px;
+.sign_up_show {
+/*  display: none;*/
+  margin-top: 18%;
+  margin-left: 80px;
+  width: 38%;
 }
 
-ul
-{
+.sign_up_hide {
+  display: none;
+  margin-top: 18%;
+  margin-left: 80px;
+  width: 38%;
+}
+.sign_in {
+  margin-left: 80px;
+  width: 38%;
+}
+
+ul {
     list-style-type: none;
 }
