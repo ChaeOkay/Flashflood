@@ -16,6 +16,7 @@
       <a class="navbar-brand" href="/">FlashFlood</a>
       <% if current_user %>
         <p class="navbar-text pull-right"><a href="/sign_out">Sign Out</a></p>
+        <p class="navbar-text pull-right"><a href="/<%=@user_id%>/dashboard">Dashboard</a></p>
       <% else %>
       <p class="navbar-text pull-right"><a href="/sign_in">Sign In</a></p>
       <!-- TODO: show signed in state -->
