@@ -4,9 +4,6 @@ end
 
 get "/sign_in" do
   @show_msg = params[:msg] != nil
-  puts "-"* 50 
-  puts @show_msg
-  puts "-"* 50
   @msg = params[:msg]
   erb :sign_in
 end
