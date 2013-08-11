@@ -2,23 +2,8 @@ class Round < ActiveRecord::Base
   belongs_to :user
   belongs_to :deck
 
-
-  # def shuffle_cards
-  #    Deck.find_by_id(deck_id).cards.shuffle
-  #  end
-
-  # def cards
-  #   @cards.shuffle
-  # end
-
-  # def choose_card
-  #   @current_card = @cards.pop
-  # end
-
-  # def current_card
-  #   @current_card
-  # end
-
+  has_many :guesses
+  has_many :cards, through: :guesses
 
 
   def next_card
