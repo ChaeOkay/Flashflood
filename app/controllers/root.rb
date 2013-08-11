@@ -79,12 +79,15 @@ get '/:user_id/round/:round_id' do
     @user_id = params[:user_id]
     @round = Round.find_by_id(params[:round_id])
     @deck = Deck.find_by_id(@round.deck_id)
+    @current_card = @round.remaining_cards.first
 
-    @current_card = @deck.current_card
-
-    @guesses_remaining = @round.max_guesses - @round.num_incorrect
-    @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
-    @deck_progress.to_i
+     
+    if params[:msg]
+      @last_guess = params[:msg]
+      @last_question = @round.guessed_cards.last
+    end
+    
+    @deck_progress = @round.all_cards.length - @round.remaining_cards.length
 
     erb :game
   else
@@ -95,13 +98,16 @@ end
 post '/:user_id/round/:round_id' do
   if session[:user_id] == params[:user_id].to_i
 
-    if Guess.find_by_round_id_and_card_id(@round.id, @deck.current_card.id)
-    guess = Guess.create(round_id: @round.id, card_id: @current_card.id)
-    end
-
     round = Round.find_by_id(params[:round_id])
-    if params[:guess] == round.current_card[:answer]
-      puts "correct"
+    current_card = round.remaining_cards[0]
+
+    guess = Guess.find_by_round_id_and_card_id(round.id, current_card.id)
+    
+    guess ||= Guess.create(round_id: round.id, card_id: current_card.id)
+
+    
+    if params[:guess] == current_card[:answer]
+      msg = "correct"
       guess.correct = true
       guess.save 
       
@@ -111,18 +117,17 @@ post '/:user_id/round/:round_id' do
       guess.correct = false
       guess.save
 
-      puts "wrong"
+      msg = "incorrect"
       round.num_incorrect += 1
       round.save
     end
 
-    unless round.last_card? || round.max_guesses <= round.num_incorrect
-      round.next_card
-      redirect "/#{params[:user_id]}/round/#{round.id}"
+    unless round.remaining_cards.length == 0 #|| round.max_guesses <= round.num_incorrect
+      redirect "/#{params[:user_id]}/round/#{round.id}?msg=#{msg}"
     else
+      round.reset_guessed_cards
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)
-      round.reset_card
       erb :summary_page
     end
   else

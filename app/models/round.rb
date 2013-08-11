@@ -6,36 +6,32 @@ class Round < ActiveRecord::Base
   has_many :cards, through: :guesses
 
 
-  def next_card
-    self.card_counter += 1
-    self.save
-
-    current_card #=> returns a card object
+  def remaining_cards
+    remaining_cards = all_cards - guessed_cards
+    #remaining_cards.shuffle
   end
 
-  def reset_card
-    self.card_counter = 0
-    self.save
+  def guessed_cards
+    guessed_cards = []
+    Guess.where(round_id: id).each do |guess|
+      guessed_cards << Card.find_by_id(guess.card_id)
+    end
+    guessed_cards
   end
 
-  def current_card
-    Deck.find_by_id(deck_id).cards[card_counter] #@card_counter
+  def all_cards
+    Deck.find_by_id(deck_id).cards
   end
 
-  def last_card?
-    card_counter == (deck_length-1)
+  def no_cards?
+    remaining_cards == 1
   end
 
-  def deck_length
-    Deck.find_by_id(deck_id).cards.length
+  def reset_guessed_cards
+    Guess.where(round_id: id).each do |guess|
+      guess.destroy
+    end
   end
-  def previous_card
-    Deck.find_by_id(deck_id).cards[card_counter-1] #@card_counter
-  end
-
-  # def current_card
-  #   Deck.find_by_id(deck_id).cards[card_counter] #@card_counter
-  # end
 
   def number_of_rounds
     self.round_count = 0

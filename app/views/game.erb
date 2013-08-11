@@ -1,11 +1,11 @@
 <div class="container">
   <h1>You are currently playing <%= @deck.name %></h1>
 
-        <% if @last_correct == 'true' %>
+       <% if @last_guess == "correct" %>
           <div class="alert alert-success">
             <p> Correct! answer was <%= @last_question.answer %> </p>
           </div>
-        <% elsif @last_correct == 'false' %>
+        <% elsif @last_guess == "incorrect" %>
           <div class="alert alert-danger">
             <p> Incorrect!  The question was "<%= @last_question.question %>" and answer was "<%= @last_question.answer %>". </p>
 
@@ -29,6 +29,8 @@
 <div class="progress progress-striped active">
   <div class="progress-bar" style="width: <%=@deck_progress%>%"></div>
 </div>
-<div>
+
+<!-- <div>
   <p>Number of incorrect guesses left: <%= @guesses_remaining %></p>
-</div>
+</div> -->
+ 
