@@ -1,17 +1,29 @@
 <div class="container">
   <h1>You are currently playing <%= @deck.name %></h1>
 
-  <!-- <p> previous question place holder.  previous answer placeholder</p> -->
+        <% if @last_correct == 'true' %>
+          <div class="alert alert-success">
+            <p> Correct! answer was <%= @last_question.answer %> </p>
+          </div>
+        <% elsif @last_correct == 'false' %>
+          <div class="alert alert-danger">
+            <p> Incorrect!  The question was "<%= @last_question.question %>" and answer was "<%= @last_question.answer %>". </p>
+
+          </div>
+        <% end %>
 
   <p> <%= @current_card.question %> </p>
-  <form action='/<%=@user_id%>/round/<%= @round.id %>' method='post' >
-    <br>
-    Answer: <input name="guess" type="text"><br>
-    <br>
-    <input class= "btn" type="submit" value="Submit Answer">
-    <br>
-    <br>
-  </form>
+  <div>
+    <form action='/<%=@user_id%>/round/<%= @round.id %>' method='post' >
+      <br>
+      Answer: <input name="guess" type="text"><br>
+      <br>
+      <input class= "btn" type="submit" value="Submit Answer">
+
+      <br>
+      <br>
+    </form>
+  </div>
 
 <p>Game Round Progress:</p>
 <div class="progress progress-striped active">
