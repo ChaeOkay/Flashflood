@@ -3,9 +3,9 @@ class Round < ActiveRecord::Base
   belongs_to :deck
 
 
-  # def get_cards
-  #   @cards = Deck.find_by_id(deck_id).cards.shuffle
-  # end
+  # def shuffle_cards
+  #    Deck.find_by_id(deck_id).cards.shuffle
+  #  end
 
   # def cards
   #   @cards.shuffle
@@ -33,9 +33,9 @@ class Round < ActiveRecord::Base
     self.save
   end
 
-  # def current_card
-  #   cards.cards[card_counter] #@card_counter
-  # end
+  def current_card
+    Deck.find_by_id(deck_id).cards[card_counter] #@card_counter
+  end
 
   def last_card?
     card_counter == (deck_length-1)

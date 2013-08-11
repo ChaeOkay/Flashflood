@@ -83,13 +83,11 @@ get '/:user_id/round/:round_id' do
     @round = Round.find_by_id(params[:round_id])
     @deck = Deck.find_by_id(@round.deck_id)
 
-    @cards = @round.cards
-    # @current_card = @round.current_card
+
+    @current_card = @round.current_card
 
     @guesses_remaining = @round.max_guesses - @round.num_incorrect
-
-    #@deck_progress = (@cards.length.to_f /@round.deck_length)*100
-    # @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
+    @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
     @deck_progress.to_i
 
     erb :game
@@ -102,7 +100,7 @@ post '/:user_id/round/:round_id' do
   if session[:user_id] == params[:user_id].to_i
 
     round = Round.find_by_id(params[:round_id])
-    if params[:guess] == round.current_card.answer #round.current_card[:answer]
+    if params[:guess] == round.current_card[:answer]
       puts "correct"
       round.num_correct += 1
       round.save
