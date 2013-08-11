@@ -5,13 +5,24 @@
     <p>Answer a bunch of questions and keep track of how well you're doing.</p>
   </div>
 
+  <% if @no_deck %>
+    <div class="alert alert-danger">
+      Choose a deck!
+    </div>
+  <% end %>
+
   <form action="/<%=@user_id%>/dashboard" method="post">
     <ul>
       <% @all_decks.each do |deck| %>
 
+        <% round_count = Round.find_by_user_id_and_deck_id(@user_id, deck.id).round_count || 0 %>
+
       <li><input type="radio" name="deck_id" value="<%= deck.id %>"> <%= deck.name %></input>
-        <% if Round.find_by_user_id_and_deck_id(@user_id, deck.id)%>
-          <em>Played <%= Round.find_by_user_id_and_deck_id(@user_id, deck.id).round_count%> times</em>
+
+        <% if round_count != 1 %>
+          <em>Played <%=round_count%> times</em>
+        <% else %>
+          <em>Played <%=round_count%> time</em>
         <% end %>
       </li>
 
@@ -20,5 +31,4 @@
     <br>
     <input class="btn" type="submit" value="Start Flooding!">
   </form>
-
 </div>

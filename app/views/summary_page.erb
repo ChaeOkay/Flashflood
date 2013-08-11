@@ -4,5 +4,12 @@
   <h2>Current Round Summary Statistics:</h2>
   <p>Correct: <%= @round.num_correct %> </p>
   <p>Incorrect: <%= @round.num_incorrect %> </p>
-  <p>FlashAverage: <%= @percentage %>% </p>
+  <!-- <p>FlashAverage: <%= @percentage %>% </p> -->
 </div>
+
+  <p>Game Round Progress:</p>
+  <div class="progress progress-striped active">
+    <div class="progress-bar" style="width: <%=@deck_progress%>%"></div>
+  </div>
+
+ <p><a class="btn btn-primary btn-lg" href="/<%=@user_id%>/dashboard">Return to Dashboard</a></p>

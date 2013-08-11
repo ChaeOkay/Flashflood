@@ -55,6 +55,7 @@ get '/:user_id/dashboard' do
     @all_decks = Deck.all
     #@users_rounds = Round.where(user_id: params[:user_id])
     @user_id = params[:user_id]
+    @no_deck = true if params[:msg] != nil
     erb :dashboard
   else
     redirect '/sign_in'
@@ -63,14 +64,18 @@ end
 
 post '/:user_id/dashboard' do
   if session[:user_id] == params[:user_id].to_i
-    round = Round.find_by_user_id_and_deck_id(params[:user_id], params[:deck_id])
-    round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil?
+    if params[:deck_id]
+      round = Round.find_by_user_id_and_deck_id(params[:user_id], params[:deck_id])
+      round = Round.create(user_id: params[:user_id], deck_id: params[:deck_id]) if round.nil?
 
-    round.num_correct = 0
-    round.num_incorrect = 0
-    round.save
+      round.num_correct = 0
+      round.num_incorrect = 0
+      round.save
 
-    redirect "/#{params[:user_id]}/round/#{round.id}"
+      redirect "/#{params[:user_id]}/round/#{round.id}"
+    else
+      redirect "/#{params[:user_id]}/dashboard?msg=no_deck"
+    end
   else
     redirect '/sign_in'
   end
@@ -88,7 +93,7 @@ get '/:user_id/round/:round_id' do
       @last_guess = params[:msg]
       @last_question = @round.guessed_cards.last
     end
-    @deck_progress = ((@round.all_cards.length - @round.remaining_cards.length).to_f/(@round.all_cards.length)) * 100
+    @deck_progress = @round.deck_progress
 
     puts "*" * 50
     puts "all_cards #{@round.all_cards.length}"
@@ -131,11 +136,14 @@ post '/:user_id/round/:round_id' do
     unless round.remaining_cards.length == 0 #|| round.max_guesses <= round.num_incorrect
       redirect "/#{params[:user_id]}/round/#{round.id}?msg=#{msg}"
     else
+      @deck_progress = round.deck_progress
       round.reset_guessed_cards
       round.round_count += 1
       round.save
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)
+      @user_id = params[:user_id]
+
       erb :summary_page
     end
   else

@@ -33,9 +33,8 @@ class Round < ActiveRecord::Base
     end
   end
 
-  # def number_of_rounds
-  #   self.round_count = 0
-  #   self.round_count += 1
-  #   self.save
-  # end
+  def deck_progress
+    numerator = (all_cards.length - remaining_cards.length).to_f
+    (numerator/all_cards.length) * 100
+  end
 end
