@@ -82,9 +82,14 @@ get '/:user_id/round/:round_id' do
     @user_id = params[:user_id]
     @round = Round.find_by_id(params[:round_id])
     @deck = Deck.find_by_id(@round.deck_id)
-    @current_card = @round.current_card
 
-    @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
+    @cards = @round.cards
+    # @current_card = @round.current_card
+
+    @guesses_remaining = @round.max_guesses - @round.num_incorrect
+
+    #@deck_progress = (@cards.length.to_f /@round.deck_length)*100
+    # @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
     @deck_progress.to_i
 
     erb :game
@@ -97,7 +102,7 @@ post '/:user_id/round/:round_id' do
   if session[:user_id] == params[:user_id].to_i
 
     round = Round.find_by_id(params[:round_id])
-    if params[:guess] == round.current_card[:answer]
+    if params[:guess] == round.current_card.answer #round.current_card[:answer]
       puts "correct"
       round.num_correct += 1
       round.save
@@ -107,7 +112,7 @@ post '/:user_id/round/:round_id' do
       round.save
     end
 
-    unless round.last_card?
+    unless round.last_card? || round.max_guesses <= round.num_incorrect
       round.next_card
       redirect "/#{params[:user_id]}/round/#{round.id}"
     else

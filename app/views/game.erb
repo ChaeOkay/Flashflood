@@ -13,7 +13,10 @@
     <br>
   </form>
 
+<p>Game Round Progress:</p>
 <div class="progress progress-striped active">
   <div class="progress-bar" style="width: <%=@deck_progress%>%"></div>
 </div>
-
+<div>
+  <p>Number of incorrect guesses left: <%= @guesses_remaining %></p>
+</div>
