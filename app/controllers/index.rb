@@ -40,8 +40,7 @@ post '/sign_up' do
     user = User.new(username: params[:username])
     user.password = params[:password]
     user.save
-    p user
-   erb :dashboard
+    redirect "/#{user.id}/dashboard"
   else
 
   redirect '/sign_up?msg=already_user'

@@ -11,6 +11,11 @@
     <div class="col-lg-6 sign-dialog">
       <div class="panel panel-primary">
         <div class="panel-heading">Sign up</div>
+        <% if (@show_msg) then %>
+          <div class="alert alert-danger">
+            User already exists.
+          </div>
+        <% end %>
         <form action="/sign_up" method="post">
           <label for="username">Username</label>
           <input type="text" name="username" class="form-control"><br>
