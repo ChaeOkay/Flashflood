@@ -45,4 +45,9 @@ class Round < ActiveRecord::Base
     Deck.find_by_id(deck_id).cards.length
   end
 
+  def number_of_rounds
+    self.round_count = 0
+    self.round_count += 1
+    self.save
+  end
 end

@@ -100,6 +100,7 @@ post '/:user_id/round/:round_id' do
   if session[:user_id] == params[:user_id].to_i
 
     round = Round.find_by_id(params[:round_id])
+
     if params[:guess] == round.current_card[:answer]
       puts "correct"
       round.num_correct += 1
@@ -116,6 +117,8 @@ post '/:user_id/round/:round_id' do
     else
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)
+      @percentage = (round.num_correct.to_f / (round.num_correct.to_f + round.num_incorrect.to_f) * 100).to_i
+
       round.reset_card
       erb :summary_page
     end
