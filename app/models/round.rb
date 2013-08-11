@@ -2,6 +2,25 @@ class Round < ActiveRecord::Base
   belongs_to :user
   belongs_to :deck
 
+
+  # def shuffle_cards
+  #    Deck.find_by_id(deck_id).cards.shuffle
+  #  end
+
+  # def cards
+  #   @cards.shuffle
+  # end
+
+  # def choose_card
+  #   @current_card = @cards.pop
+  # end
+
+  # def current_card
+  #   @current_card
+  # end
+
+
+
   def next_card
     self.card_counter += 1
     self.save
@@ -33,4 +52,9 @@ class Round < ActiveRecord::Base
   #   Deck.find_by_id(deck_id).cards[card_counter] #@card_counter
   # end
 
+  def number_of_rounds
+    self.round_count = 0
+    self.round_count += 1
+    self.save
+  end
 end

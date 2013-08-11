@@ -82,8 +82,11 @@ get '/:user_id/round/:round_id' do
     @user_id = params[:user_id]
     @round = Round.find_by_id(params[:round_id])
     @deck = Deck.find_by_id(@round.deck_id)
+
+
     @current_card = @round.current_card
 
+    @guesses_remaining = @round.max_guesses - @round.num_incorrect
     @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
     @deck_progress.to_i
 
@@ -105,6 +108,7 @@ post '/:user_id/round/:round_id' do
   if session[:user_id] == params[:user_id].to_i
 
     round = Round.find_by_id(params[:round_id])
+
     if params[:guess] == round.current_card[:answer]
       @last_correct = true
 
@@ -118,12 +122,14 @@ post '/:user_id/round/:round_id' do
       round.save
     end
 
-    unless round.last_card?
+    unless round.last_card? || round.max_guesses <= round.num_incorrect
       round.next_card
       redirect "/#{params[:user_id]}/round/#{round.id}?last_correct=#{@last_correct}"
     else
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)
+      @percentage = (round.num_correct.to_f / (round.num_correct.to_f + round.num_incorrect.to_f) * 100).to_i
+
       round.reset_card
       erb :summary_page
     end
