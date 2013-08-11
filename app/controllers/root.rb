@@ -88,9 +88,13 @@ get '/:user_id/round/:round_id' do
       @last_guess = params[:msg]
       @last_question = @round.guessed_cards.last
     end
-    
-    @deck_progress = @round.all_cards.length - @round.remaining_cards.length
+    @deck_progress = ((@round.all_cards.length - @round.remaining_cards.length).to_f/(@round.all_cards.length)) * 100
 
+    puts "*" * 50
+    puts "all_cards #{@round.all_cards.length}"
+    puts "remaining_cards #{@round.remaining_cards.length}"
+    puts "deck_progress #{@deck_progress}"
+    puts "*" * 50
     erb :game
   else
     redirect '/sign_in'
