@@ -1,0 +1,8 @@
+LOG:  database system was shut down at 2013-08-10 15:36:13 PDT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "lisr" does not exist
+FATAL:  database "list" does not exist
+ERROR:  database "Flashflood_development" already exists
+STATEMENT:  CREATE DATABASE "Flashflood_development";
+	

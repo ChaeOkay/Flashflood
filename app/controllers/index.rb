@@ -87,6 +87,16 @@ get '/:user_id/round/:round_id' do
     @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
     @deck_progress.to_i
 
+    # if params[:last_correct] != nil
+    #   if params[:last_correct] == 'true'
+    #     @last_correct = true
+    #   else
+    #     @last_correct = false
+    #   end
+    # end
+
+    @last_correct = params[:last_correct] if params[:last_correct] != nil
+
     erb :game
   else
     redirect '/sign_in'
@@ -98,10 +108,13 @@ post '/:user_id/round/:round_id' do
 
     round = Round.find_by_id(params[:round_id])
     if params[:guess] == round.current_card[:answer]
+      @last_correct = true
+
       puts "correct"
       round.num_correct += 1
       round.save
     else
+      @last_correct = false
       puts "wrong"
       round.num_incorrect += 1
       round.save
@@ -109,7 +122,7 @@ post '/:user_id/round/:round_id' do
 
     unless round.last_card?
       round.next_card
-      redirect "/#{params[:user_id]}/round/#{round.id}"
+      redirect "/#{params[:user_id]}/round/#{round.id}?last_correct=#{@last_correct}"
     else
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)

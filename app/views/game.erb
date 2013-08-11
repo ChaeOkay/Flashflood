@@ -4,14 +4,29 @@
   <!-- <p> previous question place holder.  previous answer placeholder</p> -->
 
   <p> <%= @current_card.question %> </p>
-  <form action='/<%=@user_id%>/round/<%= @round.id %>' method='post' >
-    <br>
-    Answer: <input name="guess" type="text"><br>
-    <br>
-    <input class= "btn" type="submit" value="Submit Answer">
-    <br>
-    <br>
-  </form>
+  <div>
+
+
+        <% if @last_correct == 'true' %>
+          <div class="alert alert-success">
+            Correct!
+          </div>
+        <% elsif @last_correct == 'false' %>
+          <div class="alert alert-danger">
+            Incorrect!
+          </div>
+        <% end %>
+
+    <form action='/<%=@user_id%>/round/<%= @round.id %>' method='post' >
+      <br>
+      Answer: <input name="guess" type="text"><br>
+      <br>
+      <input class= "btn" type="submit" value="Submit Answer">
+
+      <br>
+      <br>
+    </form>
+  </div>
 
 <div class="progress progress-striped active">
   <div class="progress-bar" style="width: <%=@deck_progress%>%"></div>
