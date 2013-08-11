@@ -87,13 +87,11 @@ get '/:user_id/round/:round_id' do
     @deck_progress = (@round.card_counter.to_f/@round.deck_length)*100
     @deck_progress.to_i
 
-    # if params[:last_correct] != nil
-    #   if params[:last_correct] == 'true'
-    #     @last_correct = true
-    #   else
-    #     @last_correct = false
-    #   end
-    # end
+    @last_question = @round.previous_card
+    p @last_question.question
+    p @last_question.answer
+    p '*'*50
+    # @last_answer =
 
     @last_correct = params[:last_correct] if params[:last_correct] != nil
 

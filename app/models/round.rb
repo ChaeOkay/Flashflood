@@ -25,5 +25,12 @@ class Round < ActiveRecord::Base
   def deck_length
     Deck.find_by_id(deck_id).cards.length
   end
+  def previous_card
+    Deck.find_by_id(deck_id).cards[card_counter-1] #@card_counter
+  end
+
+  # def current_card
+  #   Deck.find_by_id(deck_id).cards[card_counter] #@card_counter
+  # end
 
 end

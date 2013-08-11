@@ -6,3 +6,7 @@ FATAL:  database "list" does not exist
 ERROR:  database "Flashflood_development" already exists
 STATEMENT:  CREATE DATABASE "Flashflood_development";
 	
+FATAL:  database "colleen" does not exist
+FATAL:  database "FLashflood_development" does not exist
+FATAL:  database "log" does not exist
+FATAL:  database "template1_development" does not exist
