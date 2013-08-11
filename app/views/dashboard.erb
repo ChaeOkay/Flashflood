@@ -9,7 +9,11 @@
     <ul>
       <% @all_decks.each do |deck| %>
 
-      <li><input type="radio" name="deck_id" value="<%= deck.id %>"> <%= deck.name %></input></li>
+      <li><input type="radio" name="deck_id" value="<%= deck.id %>"> <%= deck.name %></input>
+        <% if Round.find_by_user_id_and_deck_id(@user_id, deck.id)%>
+          <em>Played <%= Round.find_by_user_id_and_deck_id(@user_id, deck.id).round_count%> times</em>
+        <% end %>
+      </li>
 
       <%end%>
     </ul>

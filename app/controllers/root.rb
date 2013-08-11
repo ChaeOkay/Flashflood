@@ -1,4 +1,5 @@
 get '/' do
+  #session[:user_id] = nil
   unless session[:user_id]
     erb :index
   else
@@ -34,7 +35,7 @@ end
 
 post '/sign_up' do
   unless User.find_by_username(params[:username])
-    user = User.new(username: params[:username])
+    user = User.create(username: params[:username])
     user.password = params[:password]
     user.save
     redirect "/#{user.id}/dashboard"
@@ -52,6 +53,7 @@ end
 get '/:user_id/dashboard' do
   if session[:user_id] == params[:user_id].to_i
     @all_decks = Deck.all
+    #@users_rounds = Round.where(user_id: params[:user_id])
     @user_id = params[:user_id]
     erb :dashboard
   else
@@ -126,6 +128,8 @@ post '/:user_id/round/:round_id' do
       redirect "/#{params[:user_id]}/round/#{round.id}?msg=#{msg}"
     else
       round.reset_guessed_cards
+      round.round_count += 1
+      round.save
       @round = round
       @deck = Deck.find_by_id(@round.deck_id)
       erb :summary_page

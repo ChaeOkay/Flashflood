@@ -13,8 +13,8 @@ class Round < ActiveRecord::Base
 
   def guessed_cards
     guessed_cards = []
-    Guess.where(round_id: id).each do |guess|
-      guessed_cards << Card.find_by_id(guess.card_id)
+    Guess.where(round_id: id).each do |guess| #push in only cards that were right
+      guessed_cards << Card.find_by_id(guess.card_id) 
     end
     guessed_cards
   end
@@ -33,9 +33,9 @@ class Round < ActiveRecord::Base
     end
   end
 
-  def number_of_rounds
-    self.round_count = 0
-    self.round_count += 1
-    self.save
-  end
+  # def number_of_rounds
+  #   self.round_count = 0
+  #   self.round_count += 1
+  #   self.save
+  # end
 end
