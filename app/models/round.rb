@@ -14,7 +14,7 @@ class Round < ActiveRecord::Base
   def guessed_cards
     guessed_cards = []
     Guess.where(round_id: id).each do |guess| #push in only cards that were right
-      guessed_cards << Card.find_by_id(guess.card_id) 
+      guessed_cards << Card.find_by_id(guess.card_id)
     end
     guessed_cards
   end
@@ -36,5 +36,9 @@ class Round < ActiveRecord::Base
   def deck_progress
     numerator = (all_cards.length - remaining_cards.length).to_f
     (numerator/all_cards.length) * 100
+  end
+
+  def self.exists?(user_id, deck_id)
+    !Round.find_by_user_id_and_deck_id(user_id, deck_id).nil?
   end
 end

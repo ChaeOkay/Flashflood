@@ -15,7 +15,11 @@
     <ul>
       <% @all_decks.each do |deck| %>
 
+      <% if Round.exists?(@user_id, deck.id) %>
         <% round_count = Round.find_by_user_id_and_deck_id(@user_id, deck.id).round_count || 0 %>
+      <% else %>
+        <% round_count = 0 %>
+      <% end %>
 
       <li><input type="radio" name="deck_id" value="<%= deck.id %>"> <%= deck.name %></input>
 
